@@ -129,13 +129,12 @@ static struct early_suspend mtk_cpufreq_early_suspend_handler =
 #define DVFS_F3_MT6575_E2       DVFS_F7
 #define DVFS_F4_MT6575_E2       DVFS_F8
 
-#define DVFS_F1_MT6577_E1_1_0   DVFS_F1
-#define DVFS_F2_MT6577_E1_1_0   DVFS_F2
-#define DVFS_F3_MT6577_E1_1_0   DVFS_F3
-#define DVFS_F4_MT6577_E1_1_0   DVFS_F4
-#define DVFS_F5_MT6577_E1_1_0   DVFS_F5
-#define DVFS_F6_MT6577_E1_1_0   DVFS_F6
-#define DVFS_F7_MT6577_E1_1_0   DVFS_F7
+#define DVFS_F1_MT6577_E1_1_0   DVFS_F2
+#define DVFS_F2_MT6577_E1_1_0   DVFS_F3
+#define DVFS_F3_MT6577_E1_1_0   DVFS_F4
+#define DVFS_F4_MT6577_E1_1_0   DVFS_F5
+#define DVFS_F5_MT6577_E1_1_0   DVFS_F6
+#define DVFS_F6_MT6577_E1_1_0   DVFS_F7
 
 #define DVFS_F1_MT6577_E1_1_2   DVFS_F1
 #define DVFS_F2_MT6577_E1_1_2   DVFS_F2
@@ -218,7 +217,6 @@ static struct mtk_cpu_freq_info mt6575_freqs_e2[] = {
 * MT6577 E1 1.0G DVFS Table
 ****************************/
 static struct mtk_cpu_freq_info mt6577_freqs_e1_1_0[] = {
-    OP(DVFS_F7_MT6577_E1_1_0),
     OP(DVFS_F6_MT6577_E1_1_0),
     OP(DVFS_F5_MT6577_E1_1_0),
     OP(DVFS_F4_MT6577_E1_1_0),
@@ -637,12 +635,12 @@ static int mtk_cpufreq_target(struct cpufreq_policy *policy, unsigned int target
                 }
                 else
                 {
-                    mtk_cpufreq_idx_get(7);
+                    mtk_cpufreq_idx_get(6);
                 }
             }
             else
             {
-                mtk_cpufreq_idx_get(7);
+                mtk_cpufreq_idx_get(6);
             }
         }
     }
@@ -838,23 +836,23 @@ static int mtk_cpufreq_init(struct cpufreq_policy *policy)
                 }
                 else
                 {
-                    policy->cpuinfo.min_freq = DVFS_F7_MT6577_E1_1_0;
+                    policy->cpuinfo.min_freq = DVFS_F6_MT6577_E1_1_0;
                     policy->cpuinfo.max_freq = DVFS_F1_MT6577_E1_1_0;
 
-                    policy->cur = DVFS_F2_MT6577_E1_1_0;
+                    policy->cur = DVFS_F1_MT6577_E1_1_0;
                     policy->max = DVFS_F1_MT6577_E1_1_0;
-                    policy->min = DVFS_F7_MT6577_E1_1_0;
+                    policy->min = DVFS_F6_MT6577_E1_1_0;
                     ret = setup_freqs_table(policy, ARRAY_AND_SIZE(mt6577_freqs_e1_1_0));
                 }
             }
             else
             {
-                policy->cpuinfo.min_freq = DVFS_F7_MT6577_E1_1_0;
+                policy->cpuinfo.min_freq = DVFS_F6_MT6577_E1_1_0;
                 policy->cpuinfo.max_freq = DVFS_F1_MT6577_E1_1_0;
 
-                policy->cur = DVFS_F2_MT6577_E1_1_0;
+                policy->cur = DVFS_F1_MT6577_E1_1_0;
                 policy->max = DVFS_F1_MT6577_E1_1_0;
-                policy->min = DVFS_F7_MT6577_E1_1_0;
+                policy->min = DVFS_F6_MT6577_E1_1_0;
                 ret = setup_freqs_table(policy, ARRAY_AND_SIZE(mt6577_freqs_e1_1_0));
             }
         }
@@ -981,11 +979,11 @@ void cpufreq_thermal_protect(unsigned int limited_opp)
                 if ((DRV_Reg32(HW_RESV) & (0x1 << 17)) && ((DRV_Reg32(HW_RESV) & (0x1 << 16)) == 0))
                     g_limited_freq = DVFS_F1;
                 else
-                    g_limited_freq = DVFS_F1;
+                    g_limited_freq = DVFS_F2;
             }
             else
             {
-                g_limited_freq = DVFS_F1;
+                g_limited_freq = DVFS_F2;
             }
         }
     }
@@ -1264,16 +1262,16 @@ static int cpufreq_pdrv_probe(struct platform_device *pdev)
                 }
                 else
                 {
-                    g_cur_freq = DVFS_F2_MT6577_E1_1_0;
+                    g_cur_freq = DVFS_F1_MT6577_E1_1_0;
                     g_limited_freq = DVFS_F1_MT6577_E1_1_0;
-                    g_limited_min_freq = DVFS_F7_MT6577_E1_1_0;
+                    g_limited_min_freq = DVFS_F6_MT6577_E1_1_0;
                 }
             }
             else
             {
-                g_cur_freq = DVFS_F2_MT6577_E1_1_0;
+                g_cur_freq = DVFS_F1_MT6577_E1_1_0;
                 g_limited_freq = DVFS_F1_MT6577_E1_1_0;
-                g_limited_min_freq = DVFS_F7_MT6577_E1_1_0;
+                g_limited_min_freq = DVFS_F6_MT6577_E1_1_0;
             }
         }
     }

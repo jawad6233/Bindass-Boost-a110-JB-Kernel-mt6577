@@ -79,7 +79,7 @@ struct nled_setting
 };
  
 struct cust_mt65xx_led* bl_setting = NULL;
-unsigned int bl_brightness = 102;
+unsigned int bl_brightness = 125;
 unsigned int bl_duty = 21;
 unsigned int bl_div = CLK_DIV1;
 unsigned int bl_frequency = 32000;

@@ -553,19 +553,8 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 	if (num_online_cpus() < 2 && max_load > dbs_tuners_ins.up_threshold_hotplug) {
 			mutex_unlock(&this_dbs_info->timer_mutex); /* this seems to be a very good idea, without it lockups are possible! */
 			cpu_up(1);
-			cpu_up(2);
-			cpu_up(3);
 			mutex_lock(&this_dbs_info->timer_mutex); /* this seems to be a very good idea, without it lockups are possible! */
-	} else if (num_online_cpus() < 3 && max_load > dbs_tuners_ins.up_threshold_hotplug) {
-			mutex_unlock(&this_dbs_info->timer_mutex);
-			cpu_up(2);
-			cpu_up(3);
-			mutex_lock(&this_dbs_info->timer_mutex);
-	} else if (num_online_cpus() < 4 && max_load > dbs_tuners_ins.up_threshold_hotplug) {
-			mutex_unlock(&this_dbs_info->timer_mutex);
-			cpu_up(3);
-			mutex_lock(&this_dbs_info->timer_mutex);
-	}
+	} 
 	
 	/* Check for frequency increase */
 	if (max_load > dbs_tuners_ins.up_threshold) {
@@ -588,22 +577,11 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 	 * Modification by ZaneZam November 2012
 	 */
 	
-	if (num_online_cpus() > 3 && max_load < dbs_tuners_ins.down_threshold_hotplug) {
+	if (num_online_cpus() > 1 && max_load < dbs_tuners_ins.down_threshold_hotplug) {
 			mutex_unlock(&this_dbs_info->timer_mutex); /* this seems to be a very good idea, without it lockups are possible */
-			cpu_down(3);
-			cpu_down(2);
 			cpu_down(1);
 			mutex_lock(&this_dbs_info->timer_mutex); /* this seems to be a very good idea, without it lockups are possible */
-	} else if (num_online_cpus() > 2 && max_load < dbs_tuners_ins.down_threshold_hotplug) {
-			mutex_unlock(&this_dbs_info->timer_mutex);
-			cpu_down(2);
-			cpu_down(1);
-			mutex_lock(&this_dbs_info->timer_mutex);
-	} else if (num_online_cpus() > 1 && max_load < dbs_tuners_ins.down_threshold_hotplug) {
-			mutex_unlock(&this_dbs_info->timer_mutex);
-			cpu_down(1);
-			mutex_lock(&this_dbs_info->timer_mutex);
-	}
+	} 
 
 	/*
 	 * The optimal frequency is the frequency that is the lowest that
